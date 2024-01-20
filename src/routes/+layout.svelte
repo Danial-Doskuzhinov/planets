@@ -1,40 +1,44 @@
-<script>
-	// import Header from './Header.svelte';
-	// import './styles.css';/
+<script lang="ts">  
+import './style.css'
+    export let data;
+    let planets = data.body?.planets.data;
 </script>
-
-<div class="app">
-	<header>	
-		<nav>			
-			<ul>			
-				<a href="/">Home</a>							
-				<a href="/planets">planets</a>	
-				<a href="/">home</a>
-			</ul>	
-		</nav>
-	</header>
-
-	<main>
-		<slot />
-	</main>
-
-	</div>
-
+<header>
+    <a class="linkhome" href="/"><h1 class="home">THE PLANETS</h1></a>
+    <nav>
+        {#each planets as planet }
+        <ul>  
+         <a href={`/planets/${planet.id}`}><h2>{planet.id} </h2></a>     
+       </ul>
+     {/each}
+    </nav>
+    <div class="line"></div>
+</header>
+<slot/>
 <style>
-	.app {
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-	}
-
-	main {
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		padding: 1rem;
-		width: 100%;
-		max-width: 64rem;
-		margin: 0 auto;
-		box-sizing: border-box;
-	}
+    h2{
+        color: #FFF;
+    }
+    .home{
+        color: #FFF;
+font-family: Antonio;
+font-size: 1.75rem;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: -0.06563rem;
+text-transform: uppercase;
+    }
+    nav{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    .line{
+         width: 90rem;
+         height: 0.0625rem;
+         flex-shrink: 0;
+         opacity: 0.2;
+         background: #FFF;
+   }
 </style>

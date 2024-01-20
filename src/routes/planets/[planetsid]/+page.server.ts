@@ -1,38 +1,48 @@
-import type { Load } from '@sveltejs/kit';
+import type { Load } from "@sveltejs/kit";
 
-export const load: Load = async (serverLoad) => {
-    try {
-        const {fetch , params , url ,route} = serverLoad;
-        console.log('params  ',params,'url  ',url ,'route.id  ',  route.id);
-        
-        const { planetsid } = params;
-        console.log(' its params ',params ,);
-        
-        const name = 'this title load func';
-
-        const response = await fetch(`http://localhost:8081/api/v1/planets/${planetsid}`, {
-            method: "GET",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            console.error(`Ошибка запроса: ${response.status} ${response.statusText}`);
-        }
-
-        const planets = await response.json();
-        console.log( planets);
-        
+export const load: Load = async ({ fetch, params }) => {
+    console.log('dsssddddssssssssssss', params);
+    const { planetsid } = params; 
+    const response = await fetch(`http://localhost:8081/api/v1/planets/${planetsid}`);
+    
+    if (!response.ok) {
+        console.error(`response dont ok  ${planetsid}. Status: ${response.status}`);
         return {
-            
-                name,
-                planets,
-                params,
-                planetsid
-            
+            status: response.status,
+            body: {
+                error: `response dont oki  ${planetsid}. Status: ${response.status}`,
+            },
         };
-    }catch(error) {
-        console.error('Ошибка:', error);
     }
+
+    const data = await response.json();
+    return {
+        body:{
+            data:{
+                id:data.id,
+                name:data.name,
+                rotation:data.rotation,
+                revolution:data.revolution,
+                radius:data.radius,
+                temperature:data.temperature,
+                
+                overview:{
+                    content:data.overview.content,
+                    source:data.overview.source,
+                },
+                structure:{
+                    content:data.structure.content,
+                    source:data.structure.source,
+                },
+                geology:{
+                    content:data.geology.content,
+                    source:data.geology.source,
+                }
+            }
+        }
+        
+        }
+      
+      
 };
+
