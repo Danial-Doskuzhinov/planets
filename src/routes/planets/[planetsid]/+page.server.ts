@@ -1,10 +1,11 @@
 import type { Load } from "@sveltejs/kit";
 
 export const load: Load = async ({ fetch, params }) => {
+try {
     console.log('dsssddddssssssssssss', params);
     const { planetsid } = params; 
     const response = await fetch(`http://localhost:8081/api/v1/planets/${planetsid}`);
-    
+     
     if (!response.ok) {
         console.error(`response dont ok  ${planetsid}. Status: ${response.status}`);
         return {
@@ -41,6 +42,10 @@ export const load: Load = async ({ fetch, params }) => {
             }
         }
         
+        }
+    } catch (error) {
+    console.log(error , 'function');
+    
         }
       
       
