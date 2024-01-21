@@ -1,7 +1,7 @@
-// +page.server.ts
+
 export const load = async () => {
     try {
-        const name = 'this title load func';
+       
     const response = await fetch(`http://localhost:8081/api/v1/planets/`, {
         method: "GET",
         headers: {
@@ -16,7 +16,6 @@ export const load = async () => {
     console.log(data, 'log377');
     return {
         body: {
-            name,
             planets: data,
         },
     };
